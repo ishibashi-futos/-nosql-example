@@ -26,6 +26,8 @@ dependencies {
   // https://mvnrepository.com/artifact/com.cloudant/cloudant-client
   implementation 'com.cloudant:cloudant-client:2.19.1'
   implementation 'org.postgresql:postgresql:42.2.15'
+  // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
   // Use Scalatest for testing our library
   testImplementation 'junit:junit:null'

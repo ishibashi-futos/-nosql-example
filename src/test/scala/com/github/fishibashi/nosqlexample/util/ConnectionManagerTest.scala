@@ -14,9 +14,8 @@ class ConnectionManagerTest extends AnyFunSuite {
   test("getNewMongoConnection") {
     val dbName = "mongo"
     val collectionName = "address"
-    val conn = ConnectionManager.newMongoDBConnection(dbName)
-    assert(conn != null)
-    val col = conn.getCollection(collectionName)
-    assert(col != null)
+    val (driver, closer) = ConnectionManager.newMongoDBConnection()
+    assert(driver != null)
+    closer()
   }
 }
