@@ -13,7 +13,5 @@ trait Repository[T, K] {
 
   def findOne(key: K): Option[T]
 
-  def update(key: K, data: T): Try[Int]
-
   def delete(key: K): Unit
 }
