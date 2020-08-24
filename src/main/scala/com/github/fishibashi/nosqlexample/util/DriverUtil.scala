@@ -2,7 +2,7 @@ package com.github.fishibashi.nosqlexample.util
 
 import java.sql.{Connection, PreparedStatement}
 
-object JDBCUtil {
+object DriverUtil {
   def closeStatement(stmt: PreparedStatement): Unit = {
     Option(stmt) match {
       case Some(stmt) => stmt.close()

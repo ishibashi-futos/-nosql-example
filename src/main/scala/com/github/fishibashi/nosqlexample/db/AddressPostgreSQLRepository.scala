@@ -2,7 +2,7 @@ package com.github.fishibashi.nosqlexample.db
 
 import java.sql.{Connection, PreparedStatement, ResultSet}
 
-import com.github.fishibashi.nosqlexample.util.JDBCUtil
+import com.github.fishibashi.nosqlexample.util.DriverUtil
 import com.github.fishibashi.nosqlexample.vo.Address
 
 import scala.util.{Failure, Success, Try}
@@ -46,7 +46,7 @@ class AddressPostgreSQLRepository(val conn: Connection) extends AddressRepositor
     } catch {
       case e: Throwable => Failure(e)
     } finally {
-      JDBCUtil.closeStatement(stmt)
+      DriverUtil.closeStatement(stmt)
     }
   }
 
@@ -103,7 +103,7 @@ class AddressPostgreSQLRepository(val conn: Connection) extends AddressRepositor
     } catch {
       case e: Throwable => Failure(e)
     } finally {
-      JDBCUtil.closeStatement(stmt)
+      DriverUtil.closeStatement(stmt)
     }
   }
 
@@ -143,7 +143,7 @@ class AddressPostgreSQLRepository(val conn: Connection) extends AddressRepositor
     } catch {
       case e: Throwable => throw e
     } finally {
-      JDBCUtil.closeStatement(stmt)
+      DriverUtil.closeStatement(stmt)
       if (rs != null) {
         rs.close()
       }
@@ -160,7 +160,7 @@ class AddressPostgreSQLRepository(val conn: Connection) extends AddressRepositor
           stmt.setInt(1, key)
           stmt.executeUpdate()
         } finally {
-          JDBCUtil.closeStatement(stmt)
+          DriverUtil.closeStatement(stmt)
         }
       case None =>
     }

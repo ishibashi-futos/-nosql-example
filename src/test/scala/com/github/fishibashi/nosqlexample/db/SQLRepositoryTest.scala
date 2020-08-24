@@ -2,7 +2,7 @@ package com.github.fishibashi.nosqlexample.db
 
 import java.sql.Connection
 
-import com.github.fishibashi.nosqlexample.util.{ConnectionManager, JDBCUtil}
+import com.github.fishibashi.nosqlexample.util.{ConnectionManager, DriverUtil}
 
 trait SQLRepositoryTest {
   var conn: Connection = _
@@ -12,7 +12,7 @@ trait SQLRepositoryTest {
   }
 
   protected def tearDown(): Unit = {
-    JDBCUtil.closeConnection(conn)
+    DriverUtil.closeConnection(conn)
   }
 
   protected def setup(setupScripts: Array[String]): Unit = {
@@ -20,7 +20,7 @@ trait SQLRepositoryTest {
       val stmt = conn.prepareStatement(sql)
       stmt.executeUpdate()
       conn.commit()
-      JDBCUtil.closeStatement(stmt)
+      DriverUtil.closeStatement(stmt)
     })
   }
 }
