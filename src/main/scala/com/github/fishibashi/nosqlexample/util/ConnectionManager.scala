@@ -10,6 +10,10 @@ object ConnectionManager {
   private val password = "postgres"
 
   private val mongodbName = "testdb"
+  private val mongoUser = "mongos"
+  private val mongoPasswd = "mongos"
+  private val mongoPort = 27017
+  private val mongoUrl = s"mongodb://${mongoUser}:${mongoPasswd}@${wsl2Address}:${mongoPort}"
 
   def newSqlConnection(): Connection = {
     val conn = DriverManager.getConnection(url, user, password)
@@ -18,8 +22,9 @@ object ConnectionManager {
   }
 
   def newMongoDBConnection(): (MongoDatabase, Function0[Unit]) = {
-    val client = MongoClients.create(s"mongodb://${wsl2Address}:2717")
-    (client.getDatabase(mongodbName), () => {
+    val client = MongoClients.create(mongoUrl)
+    val database = client.getDatabase(mongodbName)
+    (database, () => {
       DriverUtil.closeMongoConnection(client)
     })
   }

@@ -12,3 +12,12 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     restart: always
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongos
+      MONGO_INITDB_ROOT_PASSWORD: mongos
+    ports:
+      - 27017:27017

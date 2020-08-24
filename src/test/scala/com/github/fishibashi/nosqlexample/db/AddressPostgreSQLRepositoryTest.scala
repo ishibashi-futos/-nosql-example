@@ -29,7 +29,7 @@ class AddressPostgreSQLRepositoryTest extends AnyFunSuite with BeforeAndAfter wi
     tearDown()
   }
 
-  test("1件のinsertに成功する") {
+  test("Successfully insert one.") {
     val repository = new AddressPostgreSQLRepository(conn)
     val insertResult = repository.save(Address(60000000, 2, 1101, 11010000, "060-0000", 0, 0,
       "北海道", "ホッカイドウ", "札幌市中央区", "サッポロシチュウオウク", "", "　", "（該当なし）", "", "", "", "", "", "", "", ""))
