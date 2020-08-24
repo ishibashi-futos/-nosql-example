@@ -146,3 +146,5 @@ fabric.properties
 *.iml
 *.ipr
 .idea/
+.ideaDataSources/
+dataSources/
