@@ -8,6 +8,6 @@ sealed trait ObjectMapperConfig {
 }
 
 object DefaultMapperConfig extends ObjectMapperConfig {
-  override def getObjectMapper: ObjectMapper =
-    new ObjectMapper().registerModule(DefaultScalaModule)
+  private val mapper = new ObjectMapper().registerModule(DefaultScalaModule)
+  override def getObjectMapper: ObjectMapper = mapper
 }
