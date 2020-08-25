@@ -4,7 +4,7 @@ import com.couchbase.client.java.Bucket
 import com.couchbase.client.java.json.JsonObject
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.github.fishibashi.nosqlexample.util.ConnectionManager
+import com.github.fishibashi.nosqlexample.util.{ConnectionManager, DefaultMapperConfig}
 import org.slf4j.LoggerFactory
 
 trait CouchRepositoryTest[K, V] {
@@ -17,8 +17,7 @@ trait CouchRepositoryTest[K, V] {
     val (conn, closer) = ConnectionManager.newCouchConnection()
     this.conn = conn
     this.closer = closer
-    this.mapper = new ObjectMapper()
-    this.mapper.registerModule(DefaultScalaModule)
+    this.mapper = DefaultMapperConfig.getObjectMapper()
   }
 
   def setUp(collectionName: String, items: Array[(K, V)]): Unit = {
