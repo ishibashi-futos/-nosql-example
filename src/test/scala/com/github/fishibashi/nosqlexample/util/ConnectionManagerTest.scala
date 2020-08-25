@@ -12,10 +12,14 @@ class ConnectionManagerTest extends AnyFunSuite {
   }
 
   test("getNewMongoConnection") {
-    val dbName = "mongo"
-    val collectionName = "address"
     val (driver, closer) = ConnectionManager.newMongoDBConnection()
     assert(driver != null)
+    closer()
+  }
+
+  test("getNewCouchConnection") {
+    val (conn, closer) = ConnectionManager.newCouchConnection()
+    assert(conn != null)
     closer()
   }
 }

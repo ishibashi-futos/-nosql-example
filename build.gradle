@@ -21,6 +21,9 @@ dependencies {
   implementation 'org.mongodb:mongo-java-driver:3.12.7'
   // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
+  // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-scala
+  implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.13', version: '2.11.2'
+
   // https://mvnrepository.com/artifact/com.couchbase.client/java-client
   implementation 'com.couchbase.client:java-client:3.0.7'
   // https://mvnrepository.com/artifact/com.cloudant/cloudant-client

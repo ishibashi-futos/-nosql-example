@@ -107,6 +107,22 @@ class AddressPostgreSQLRepository(val conn: Connection) extends AddressRepositor
     }
   }
 
+  override def delete(key: Int): Unit = {
+    findOne(key) match {
+      case Some(_) =>
+        val sql = "DELETE FROM ADDRESS WHERE addressCode = ?"
+        var stmt: PreparedStatement = null
+        try {
+          stmt = conn.prepareStatement(sql)
+          stmt.setInt(1, key)
+          stmt.executeUpdate()
+        } finally {
+          DriverUtil.closeStatement(stmt)
+        }
+      case None =>
+    }
+  }
+
   override def findOne(key: Int): Option[Address] = {
     val sql = "SELECT * FROM ADDRESS WHERE addressCode = ?"
     var stmt: PreparedStatement = null
@@ -147,22 +163,6 @@ class AddressPostgreSQLRepository(val conn: Connection) extends AddressRepositor
       if (rs != null) {
         rs.close()
       }
-    }
-  }
-
-  override def delete(key: Int): Unit = {
-    findOne(key) match {
-      case Some(_) =>
-        val sql = "DELETE FROM ADDRESS WHERE addressCode = ?"
-        var stmt: PreparedStatement = null
-        try {
-          stmt = conn.prepareStatement(sql)
-          stmt.setInt(1, key)
-          stmt.executeUpdate()
-        } finally {
-          DriverUtil.closeStatement(stmt)
-        }
-      case None =>
     }
   }
 }

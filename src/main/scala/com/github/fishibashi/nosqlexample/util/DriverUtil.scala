@@ -9,6 +9,7 @@ class DriverUtil
 
 object DriverUtil {
   private val logger = LoggerFactory.getLogger(classOf[DriverUtil])
+
   def closeStatement(stmt: PreparedStatement): Unit = {
     Option(stmt) match {
       case Some(stmt) => stmt.close()

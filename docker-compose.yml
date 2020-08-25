@@ -21,3 +21,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mongos
     ports:
       - 27017:27017
+  couchbase:
+    image: couchbase:community-6.5.1
+    container_name: couchbase
+    restart: always
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 8094:8094
+      - 11210:11210
