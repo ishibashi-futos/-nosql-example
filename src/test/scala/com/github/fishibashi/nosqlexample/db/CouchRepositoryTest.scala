@@ -17,7 +17,7 @@ trait CouchRepositoryTest[K, V] {
     val (conn, closer) = ConnectionManager.newCouchConnection()
     this.conn = conn
     this.closer = closer
-    this.mapper = DefaultMapperConfig.getObjectMapper()
+    this.mapper = DefaultMapperConfig.getObjectMapper
   }
 
   def setUp(collectionName: String, items: Array[(K, V)]): Unit = {
