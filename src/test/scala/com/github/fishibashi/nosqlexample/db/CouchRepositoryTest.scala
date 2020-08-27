@@ -3,7 +3,6 @@ package com.github.fishibashi.nosqlexample.db
 import com.couchbase.client.java.Bucket
 import com.couchbase.client.java.json.JsonObject
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.github.fishibashi.nosqlexample.util.{ConnectionManager, DefaultMapperConfig}
 import org.slf4j.LoggerFactory
 
@@ -22,9 +21,9 @@ trait CouchRepositoryTest[K, V] {
 
   def setUp(collectionName: String, items: Array[(K, V)]): Unit = {
     val col = this.conn.defaultCollection()
-    items.foreach(item => {
+    items.foreach(f = item => {
       val json = mapper.writeValueAsString(item._2)
-      logger.info(s"${item._1}, json={${json}}")
+      logger info s"${item._1}, json={${json}}"
       col.insert(item._1.toString, JsonObject.fromJson(json))
     })
   }
