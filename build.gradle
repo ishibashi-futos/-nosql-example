@@ -59,6 +59,6 @@ sonarqube {
     property "sonar.scm.disabled", true
     property "sonar.projectKey", "nosql-example"
     property "sonar.host.url", "http://localhost:9000"
-    property "sonar.login", "735cb0f2d4cf5e9e1063373d6f8ab60443393b1e"
+    property "sonar.login", "<YourToken>"
   }
 }
