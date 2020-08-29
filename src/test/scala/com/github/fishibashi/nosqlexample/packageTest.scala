@@ -13,9 +13,10 @@ class GlobalTest extends AnyFunSuite {
   test("開放可能なリソースを使用して処理ができる") {
     class Resource {
       def close(): Unit = println("close!")
+
       def add(num1: Int, num2: Int): Int = num1 + num2
     }
-    using(new Resource){ r =>
+    using(new Resource) { r =>
       r.add(1, 1)
     } match {
       case Success(value) => assert(value == 2)
@@ -28,11 +29,13 @@ class GlobalTest extends AnyFunSuite {
       def close(): Unit = {
 
       }
+
       def add(num1: Int, num2: Int): Int = throw new RuntimeException("RunTimeException")
     }
-    using(new Resource) {r => {
+    using(new Resource) { r => {
       r.add(1, 2)
-    }} match {
+    }
+    } match {
       case Success(_) => fail("ここに来たら失敗")
       case Failure(t) =>
         assert(t.getMessage == "RunTimeException")
