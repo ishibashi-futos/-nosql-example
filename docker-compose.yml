@@ -6,7 +6,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./postgres/init:/docker-entrypoint-initdb.d
+      - ./docker/postgres/init/:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -16,6 +16,8 @@ services:
     image: mongo
     container_name: mongo
     restart: always
+    volumes:
+      - ./docker/mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongos
       MONGO_INITDB_ROOT_PASSWORD: mongos

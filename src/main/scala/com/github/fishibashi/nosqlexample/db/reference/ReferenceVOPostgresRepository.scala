@@ -2,19 +2,24 @@ package com.github.fishibashi.nosqlexample.db.reference
 
 import java.sql.{Connection, PreparedStatement}
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.fishibashi.nosqlexample.Global.using
-import com.github.fishibashi.nosqlexample.util.{DefaultMapperConfig, DriverUtil}
+import com.github.fishibashi.nosqlexample.util.DriverUtil
 import com.github.fishibashi.nosqlexample.vo.reference._
+import org.slf4j.LoggerFactory
 
-import scala.concurrent.{Future, Await}
-import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Success, Try}
 
 class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORepository {
 
-  val mapper: ObjectMapper = DefaultMapperConfig.getObjectMapper
+  private val logger = LoggerFactory.getLogger(classOf[ReferenceVOPostgresRepository])
+  private val executeQuery = (sql: String, key: String) => using[PreparedStatement, Unit](conn.prepareStatement(sql)) { stmt =>
+    stmt.setString(1, key)
+    stmt.executeUpdate()
+  }
+
   override def save(data: ReferenceVO): Try[Int] = {
     try {
       saveReferenceVO(data)
@@ -86,13 +91,13 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
       val rs = stmt.executeQuery()
       if (!rs.next()) throw new Exception(s"Not Found taskId=${key}")
       ReferenceVO(rs.getString("TASKID"),
-          rs.getString("SYSTEMID"),
+        rs.getString("SYSTEMID"),
         rs.getString("STARTTIME"),
         rs.getString("ENDTIME"),
         rs.getLong("TOTALTIME"),
         rs.getString("CLIENTIP"),
         Map()
-        )
+      )
     } match {
       case Success(value) => Some(value)
       case Failure(_) => None
@@ -101,7 +106,7 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
 
   private def findByTaskIdPointRefVo(key: String): Future[Option[Map[Int, PointReferenceVO]]] = Future {
     val sql = "SELECT * FROM POINTREFERENCEVO WHERE TASKID = ? ORDER BY POINTCOUNT"
-    using(conn.prepareStatement(sql)) {stmt => {
+    using(conn.prepareStatement(sql)) { stmt => {
       stmt.setString(1, key)
       val rs = stmt.executeQuery()
       val array = scala.collection.mutable.Map[Int, PointReferenceVO]()
@@ -123,11 +128,30 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
         i = i + 1
       }
       Success(array)
-    }} match {
+    }
+    } match {
       case Success(value) => Some(value.get.toMap)
       case Failure(_) => None
     }
   }
 
-  override def delete(key: String): Unit = ???
+  override def delete(key: String): Unit = {
+    val pointReferenceVO = Await.result(findOneRefVo(key), Duration.Inf)
+    pointReferenceVO match {
+      case None => logger.info(s"was not deleted. taskId = ${key}")
+      case Some(_) =>
+        val complete = Future.sequence(Seq(deleteRefVo(key), deletePointRefVo(key)))
+        Await.result(complete, Duration.Inf)
+    }
+  }
+
+  private def deleteRefVo(key: String): Future[Try[Unit]] = Future {
+    val sql = "DELETE FROM REFERENCEVO WHERE TASKID = ?"
+    executeQuery(sql, key)
+  }
+
+  private def deletePointRefVo(key: String): Future[Try[Unit]] = Future {
+    val sql = "DELETE FROM POINTREFERENCEVO WHERE TASKID = ?"
+    executeQuery(sql, key)
+  }
 }

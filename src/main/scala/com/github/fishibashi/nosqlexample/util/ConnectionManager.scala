@@ -6,7 +6,7 @@ import com.couchbase.client.java.{Bucket, Cluster}
 import com.mongodb.client._
 
 object ConnectionManager {
-  private val wsl2Address = "172.30.240.230"
+  private val wsl2Address = "172.30.241.190"
   private val url = s"jdbc:postgresql://${wsl2Address}:5432/postgres"
   private val user = "postgres"
   private val password = "postgres"
