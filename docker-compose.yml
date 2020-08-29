@@ -12,17 +12,64 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     restart: always
-  mongo:
+  mongo-primary:
     image: mongo
-    container_name: mongo
+    container_name: mongo-primary
     restart: always
-    volumes:
-      - ./docker/mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: >
+      mongod
+      --port 27017
+      --replSet replset
+      --auth --keyFile /etc/mongod-keyfile
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongos
       MONGO_INITDB_ROOT_PASSWORD: mongos
+    volumes:
+      - ./docker/mongo/root/mongo-init.js:/root/mongo-init.js:ro
+      - ./docker/mongo/etc/mongod-keyfile:/etc/mongod-keyfile:ro # Permission: 400
+    depends_on:
+      - mongo-secondary
+      - mongo-arbiter
     ports:
       - 27017:27017
+    restart: on-failure
+  mongo-secondary:
+    image: mongo
+    container_name: mongo-secondary
+    restart: always
+    command: >
+      mongod
+      --port 27018
+      --replSet replset
+      --auth --keyFile /etc/mongod-keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongos
+      MONGO_INITDB_ROOT_PASSWORD: mongos
+    volumes:
+      - ./docker/mongo/etc/mongod-keyfile:/etc/mongod-keyfile:ro # Permission: 400
+    depends_on:
+      - mongo-arbiter
+    ports:
+      - 27018:27018
+    restart: on-failure
+  mongo-arbiter:
+    image: mongo
+    container_name: mongo-arbiter
+    restart: always
+    command: >
+      mongod
+      --port 27019
+      --replSet replset
+      --auth --keyFile /etc/mongod-keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongos
+      MONGO_INITDB_ROOT_PASSWORD: mongos
+    volumes:
+      - ./docker/mongo/etc/mongod-keyfile:/etc/mongod-keyfile:ro # Permission: 400
+    ports:
+      - 27019:27019
+    restart: on-failure
+
   couchbase:
     image: couchbase:community-6.5.1
     container_name: couchbase

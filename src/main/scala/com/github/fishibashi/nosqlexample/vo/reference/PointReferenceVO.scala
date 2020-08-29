@@ -2,6 +2,7 @@ package com.github.fishibashi.nosqlexample.vo.reference
 
 import java.io._
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.fishibashi.nosqlexample.vo.reference.PointReferenceVO.dataTableToByteArray
 
 case class PointReferenceVO(taskId: String,
@@ -15,8 +16,8 @@ case class PointReferenceVO(taskId: String,
                             methodName: String,
                             dataTable: Map[String, AnyRef],
                             isSuccess: String) {
+  @JsonIgnore
   def getDataTableToByte: Array[Byte] = dataTableToByteArray(dataTable)
-
 }
 
 object PointReferenceVO {
