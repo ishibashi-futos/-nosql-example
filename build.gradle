@@ -4,6 +4,8 @@ plugins {
   // add plugin.
   id 'application'
   id 'idea'
+  id 'org.sonarqube' version "3.0"
+  id 'jacoco'
 }
 
 mainClassName = "com.github.fishibashi.nosqlexample.NoSQLExample"
@@ -50,4 +52,13 @@ task repl(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   standardInput System.in
   args '-usejavacp'
+}
+
+sonarqube {
+  properties {
+    property "sonar.scm.disabled", true
+    property "sonar.projectKey", "nosql-example"
+    property "sonar.host.url", "http://localhost:9000"
+    property "sonar.login", "735cb0f2d4cf5e9e1063373d6f8ab60443393b1e"
+  }
 }

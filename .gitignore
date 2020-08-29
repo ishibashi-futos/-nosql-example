@@ -148,3 +148,4 @@ fabric.properties
 .idea/
 .ideaDataSources/
 dataSources/
+docker/
