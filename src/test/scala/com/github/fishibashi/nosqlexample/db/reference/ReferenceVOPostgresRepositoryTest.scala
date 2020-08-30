@@ -40,7 +40,7 @@ class ReferenceVOPostgresRepositoryTest extends AnyFunSuite with SQLRepositoryTe
       "20200827235959999",
       20200827235959999L - 20200827000000000L,
       "127.0.0.1",
-      Map(1 -> PointReferenceVO(
+      List(PointReferenceVO(
         UUID.randomUUID().toString,
         UUID.randomUUID().toString,
         UUID.randomUUID().toString,
@@ -63,7 +63,7 @@ class ReferenceVOPostgresRepositoryTest extends AnyFunSuite with SQLRepositoryTe
     repository.findOne("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9") match {
       case Some(referenceVO) =>
         assert(referenceVO.taskId == "b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9")
-        val pointRefVo = referenceVO.referenceTable(0)
+        val pointRefVo = referenceVO.referenceTable.head
         assert(pointRefVo.dataTable("a") == "String")
         assert(pointRefVo.dataTable("b") == 100)
         assert(pointRefVo.dataTable("c") == 100L)

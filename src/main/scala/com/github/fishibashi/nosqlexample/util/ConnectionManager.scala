@@ -3,7 +3,6 @@ package com.github.fishibashi.nosqlexample.util
 import java.sql.{Connection, DriverManager}
 
 import com.couchbase.client.java.{Bucket, Cluster}
-import com.mongodb.{MongoClientSettings, ServerAddress}
 import com.mongodb.client._
 
 object ConnectionManager {

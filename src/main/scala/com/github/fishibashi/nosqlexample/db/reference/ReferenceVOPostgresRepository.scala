@@ -23,7 +23,7 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
   override def save(data: ReferenceVO): Try[Int] = {
     try {
       saveReferenceVO(data)
-      data.referenceTable.foreach((item) => savePointRefVO(item._2))
+      data.referenceTable.foreach((item) => savePointRefVO(item))
       Success(1)
     } catch {
       case e: Throwable => Failure(e)
@@ -77,7 +77,7 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
       pointRefVo <- findPointRefVo
     } yield {
       refVo match {
-        case Some(referenceVO) => Some(referenceVO.copy(referenceTable = pointRefVo.getOrElse(Map[Int, PointReferenceVO]())))
+        case Some(referenceVO) => Some(referenceVO.copy(referenceTable = pointRefVo.getOrElse(List())))
         case _ => None
       }
     }
@@ -96,7 +96,7 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
         rs.getString("ENDTIME"),
         rs.getLong("TOTALTIME"),
         rs.getString("CLIENTIP"),
-        Map()
+        List()
       )
     } match {
       case Success(value) => Some(value)
@@ -104,15 +104,15 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
     }
   }
 
-  private def findByTaskIdPointRefVo(key: String): Future[Option[Map[Int, PointReferenceVO]]] = Future {
+  private def findByTaskIdPointRefVo(key: String): Future[Option[List[PointReferenceVO]]] = Future {
     val sql = "SELECT * FROM POINTREFERENCEVO WHERE TASKID = ? ORDER BY POINTCOUNT"
     using(conn.prepareStatement(sql)) { stmt => {
       stmt.setString(1, key)
       val rs = stmt.executeQuery()
-      val array = scala.collection.mutable.Map[Int, PointReferenceVO]()
+      val array = scala.collection.mutable.ArrayBuffer[PointReferenceVO]()
       var i = 0
       if (rs.next()) {
-        array.addOne(i, PointReferenceVO(
+        array.append(PointReferenceVO(
           rs.getString("TASKID"),
           rs.getString("REFERENCEID"),
           rs.getString("PARENTREFERENCEID"),
@@ -130,7 +130,7 @@ class ReferenceVOPostgresRepository(val conn: Connection) extends ReferenceVORep
       Success(array)
     }
     } match {
-      case Success(value) => Some(value.get.toMap)
+      case Success(value) => Some(value.get.toList)
       case Failure(_) => None
     }
   }
