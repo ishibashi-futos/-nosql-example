@@ -270,7 +270,7 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     )
 
     val repository = new ReferenceVOMongoRepository(client)
-    using(repository.setTransaction()) {session =>
+    using(repository.setTransaction()) { session =>
       session.startTransaction()
       assert(repository.findByTaskIds(taskIds).size == taskIds.size)
       session.abortTransaction()
@@ -284,7 +284,7 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     )
 
     val repository = new ReferenceVOMongoRepository(client)
-    using(repository.setTransaction()) {session =>
+    using(repository.setTransaction()) { session =>
       session.startTransaction()
       assert(repository.findByTaskIds(taskIds).size == 2)
       session.abortTransaction()
@@ -306,7 +306,7 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     )
     val taskIds = refVoList.map(refVo => refVo.taskId)
     val repository = new ReferenceVOMongoRepository(client)
-    using(repository.setTransaction()) {session =>
+    using(repository.setTransaction()) { session =>
       session.startTransaction()
       assert(repository.insertMany(taskIds, refVoList) == 2)
       assert(repository.findByTaskIds(taskIds).size == taskIds.size)
@@ -331,7 +331,7 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     val taskIds = refVoList.map(refVo => refVo.taskId)
 
     val repository = new ReferenceVOMongoRepository(client)
-    using(repository.setTransaction()) {session =>
+    using(repository.setTransaction()) { session =>
       session.startTransaction()
       assert(repository.insertMany(taskIds, refVoList) == 2)
       // rollback
@@ -345,4 +345,5 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     assert(count("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9") == 1)
     assert(count("6c198760-bb53-4bee-90e0-b5d38cf86bf2") == 0)
     assert(count("b4d114c1-f2a4-4d01-a59f-35ff148906d5") == 0)
-  }}
+  }
+}
