@@ -1,13 +1,13 @@
 package com.github.fishibashi.nosqlexample.db.reference
 
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.github.fishibashi.nosqlexample.util.DefaultMapperConfig
 import com.github.fishibashi.nosqlexample.vo.reference.ReferenceVO
-import com.mongodb.ClientSessionOptions
 import com.mongodb.client.model.Filters
 import com.mongodb.client.{ClientSession, MongoClient, MongoCollection}
+import com.mongodb.{BasicDBObject, ClientSessionOptions}
 import org.bson.Document
 
+import scala.jdk.CollectionConverters.{IterableHasAsJava, IterableHasAsScala}
 import scala.util.{Failure, Success, Try}
 
 class ReferenceVOMongoRepository(val client: MongoClient) extends ReferenceVORepository {
@@ -42,17 +42,58 @@ class ReferenceVOMongoRepository(val client: MongoClient) extends ReferenceVORep
   }
 
   override def findOne(key: String): Option[ReferenceVO] = {
-    val collection = getCollection
-    try {
-      collection.find(Filters.eq("taskId", key)).first() match {
-        case document if document == null => None
-        case document: Document =>
-          Some(mapper.readValue(document.toJson, classOf[ReferenceVO]))
-      }
+    getCollection.find(Filters.eq("taskId", key)).first() match {
+      case document if document == null => None
+      case document: Document =>
+        Some(mapper.readValue(document.toJson, classOf[ReferenceVO]))
     }
   }
 
-  override def delete(key: String): Unit = ???
+  override def delete(key: String): Unit = {
+    val collection = getCollection
+    this.findOne(key) match {
+      case Some(_) =>
+        session.startTransaction()
+        collection.deleteOne(session, Filters.eq("taskId", key))
+      case None =>
+    }
+  }
+
+  def findByStartTimeAndEndTime(startTime: String, endTime: String): Option[List[ReferenceVO]] = {
+    getCollection.find(Filters.and(Filters.gte("startTime", startTime), Filters.lte("endTime", endTime)))
+      .map(doc => {
+        mapper.readValue(doc.toJson, classOf[ReferenceVO])
+      }).asScala.toList match {
+      case list if list.isEmpty => None
+      case list => Some(list)
+    }
+  }
+
+  def findBySystemIdOrderByStartTimeAsc(systemId: String): Option[List[ReferenceVO]] = {
+    getCollection.find(Filters.eq("systemId", systemId)).sort(new BasicDBObject("startTime", 1))
+      .map(doc => mapper.readValue(doc.toJson, classOf[ReferenceVO])).asScala.toList match {
+      case list if list.isEmpty => None
+      case list => Some(list)
+    }
+  }
+
+  def findBySystemIdOrderByStartTimeDesc(systemId: String): Option[List[ReferenceVO]] = {
+    getCollection.find(Filters.eq("systemId", systemId)).sort(new BasicDBObject("startTime", -1))
+      .map(doc => mapper.readValue(doc.toJson, classOf[ReferenceVO])).asScala.toList match {
+      case list if list.isEmpty => None
+      case list => Some(list)
+    }
+  }
+
+  def findBySystemIds(systemIds: List[String]): Map[String, List[ReferenceVO]] = {
+    val collections = getCollection.find(Filters.in("systemId", systemIds.asJava))
+      .sort(new BasicDBObject("systemId", 1))
+      .map(doc => mapper.readValue(doc.toJson, classOf[ReferenceVO])).asScala.toList
+    systemIds.map(systemId => {
+      (systemId, collections.filter(refVo => refVo.systemId == systemId))
+    }).toMap
+  }
 
   class TransactionException extends Throwable {}
+
 }

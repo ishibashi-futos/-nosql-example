@@ -33,6 +33,45 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     Document.parse(ReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
       PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
     )).toJson),
+    Document.parse(ReferenceVO("461096cf-25a2-41e3-890c-4828d2de603c", "SampleApp", "20200801000000000", "20200801010000000", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("96554b58-37c2-43fe-b91c-edced7959576", "SampleApp", "20200801000000000", "20200801020000000", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("91edd7fd-03ca-43a0-822f-7379d6aeeb29", "SampleApp", "20200801000000000", "20200801030000000", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("3cdc04c5-4198-487f-8cd6-27637ec811fe", "SampleApp", "20200801000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("6abde5a0-92b6-4c65-8381-f856100ee90b", "findBySystemIdOrderByStartTimeAsc", "20200802000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("9b5c6ea1-7b98-4275-9c25-20e7f2a0f841", "findBySystemIdOrderByStartTimeAsc", "20200803000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("de1002c7-fe8a-4281-97a1-705e9ce77da2", "findBySystemIdOrderByStartTimeAsc", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("a9e4d9ff-ec7f-47b9-9e46-dce33c9c242b", "SampleWebApp1", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("474f76b4-3e4e-49e8-96db-65be87052ca2", "SampleWebApp2", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("7109ae6c-c221-4827-9b18-b771d8ff4a07", "SampleWebApp2", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("ba56dd52-0e5c-4ecb-bef8-bc8d11977a67", "SampleWebApp3", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("42b0a7b6-b9d4-4f81-8027-115f3e9f059c", "SampleWebApp3", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
+    Document.parse(ReferenceVO("e7520b35-260b-4f89-9de3-7f07bcc5dc8a", "SampleWebApp3", "20200804000000000", "20200801040000001", 235959999L, "127.0.0.1", List(
+      PointReferenceVO("5d435035-a59c-46a6-a4c7-81419a69fcd7", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+    )).toJson),
   )
   private var client: MongoClient = _
 
@@ -139,5 +178,88 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
         val table = referenceVO.referenceTable.head
         assert(table.dataTable("Hello") == "World")
     }
+  }
+
+  test("1件の削除に成功する") {
+    val repository = new ReferenceVOMongoRepository(client)
+    val taskId = "5d435035-a59c-46a6-a4c7-81419a69fcd7"
+    using(repository.setTransaction()) { stmt =>
+      repository.delete(taskId)
+      stmt.commitTransaction()
+    }
+
+    repository.findOne(taskId) match {
+      case Some(_) => fail("削除できていない")
+      case None => //OK
+    }
+  }
+
+  test("削除のトランザクションをロールバックできる") {
+    val repository = new ReferenceVOMongoRepository(client)
+    val taskId = "5d435035-a59c-46a6-a4c7-81419a69fcd7"
+    using(repository.setTransaction()) { stmt =>
+      repository.delete(taskId)
+      stmt.abortTransaction()
+    }
+
+    repository.findOne(taskId) match {
+      case Some(_) => // OK
+      case None => fail("Rollbackできてない")
+    }
+  }
+
+  test("開始時間と終了時間で絞り込める") {
+    val repository = new ReferenceVOMongoRepository(client)
+    repository.findByStartTimeAndEndTime("20200801000000000", "20200801030000000") match {
+      case None => fail("検索できていません")
+      case Some(list) =>
+        assert(list.size == 3)
+    }
+  }
+
+  test("開始時間と終了時間で絞り込んで結果が０件の場合、エラーとならずNoneが返却される") {
+    val repository = new ReferenceVOMongoRepository(client)
+    repository.findByStartTimeAndEndTime("19921116000000000", "19921116235959999") match {
+      case None => // OK
+      case Some(list) =>
+        fail("絞り込めていません")
+    }
+  }
+
+  test("systemIdで絞り込んだ後、startTimeで昇順にソートできる") {
+    val repository = new ReferenceVOMongoRepository(client)
+    repository.findBySystemIdOrderByStartTimeAsc("findBySystemIdOrderByStartTimeAsc") match {
+      case None => fail("検索に失敗")
+      case Some(list) =>
+        assert(list.head.startTime == "20200802000000000")
+        assert(list(1).startTime == "20200803000000000")
+        assert(list(2).startTime == "20200804000000000")
+    }
+  }
+
+  test("systemIdで絞り込んだ後、startTimeで降順にソートできる") {
+    val repository = new ReferenceVOMongoRepository(client)
+    repository.findBySystemIdOrderByStartTimeDesc("findBySystemIdOrderByStartTimeAsc") match {
+      case None => fail("検索に失敗")
+      case Some(list) =>
+        assert(list.head.startTime == "20200804000000000")
+        assert(list(1).startTime == "20200803000000000")
+        assert(list(2).startTime == "20200802000000000")
+    }
+  }
+
+  test("in句を使用した検索ができる") {
+    val repository = new ReferenceVOMongoRepository(client)
+    val result = repository.findBySystemIds(List("SampleWebApp1", "SampleWebApp2", "SampleWebApp3"))
+    val f = (systemId: String, size: Int) => {
+      result.get(systemId) match {
+        case None => fail("Error")
+        case Some(list) =>
+          assert(list.size == size)
+      }
+    }
+    f("SampleWebApp1", 1)
+    f("SampleWebApp2", 2)
+    f("SampleWebApp3", 3)
   }
 }
