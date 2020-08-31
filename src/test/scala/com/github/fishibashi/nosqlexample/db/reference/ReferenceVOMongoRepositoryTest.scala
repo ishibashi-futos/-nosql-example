@@ -251,15 +251,15 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
   test("in句を使用した検索ができる") {
     val repository = new ReferenceVOMongoRepository(client)
     val result = repository.findBySystemIds(List("SampleWebApp1", "SampleWebApp2", "SampleWebApp3"))
-    val f = (systemId: String, size: Int) => {
+    val check = (systemId: String, size: Int) => {
       result.get(systemId) match {
         case None => fail("Error")
         case Some(list) =>
           assert(list.size == size)
       }
     }
-    f("SampleWebApp1", 1)
-    f("SampleWebApp2", 2)
-    f("SampleWebApp3", 3)
+    check("SampleWebApp1", 1)
+    check("SampleWebApp2", 2)
+    check("SampleWebApp3", 3)
   }
 }
