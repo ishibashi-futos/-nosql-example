@@ -94,6 +94,18 @@ class ReferenceVOMongoRepository(val client: MongoClient) extends ReferenceVORep
     }).toMap
   }
 
+  def insertMany(taskIds: List[String], referenceVoList: List[ReferenceVO]): Int = {
+    val savedList = findByTaskIds(taskIds)
+    val notSavedList = referenceVoList.filter(refVo => !savedList.contains(refVo.taskId))
+    notSavedList.foreach(_ => save(_))
+    notSavedList.size
+  }
+
+  def findByTaskIds(taskIds: List[String]): List[ReferenceVO] = {
+    getCollection.find(session, Filters.in("taskId", taskIds.asJava)).map(doc => mapper.readValue(doc.toJson, classOf[ReferenceVO]))
+      .asScala.toList
+  }
+
   class TransactionException extends Throwable {}
 
 }

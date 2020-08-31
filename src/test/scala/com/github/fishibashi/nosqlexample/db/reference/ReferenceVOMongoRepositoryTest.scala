@@ -262,4 +262,87 @@ class ReferenceVOMongoRepositoryTest extends AnyFunSuite with BeforeAndAfter {
     check("SampleWebApp2", 2)
     check("SampleWebApp3", 3)
   }
-}
+
+  test("taskIdのリストに合致するレコードが検索できる") {
+    val taskIds = List("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9",
+      "287f5873-722e-4bcb-8f34-a13bba9b9abc",
+      "5d435035-a59c-46a6-a4c7-81419a69fcd7",
+    )
+
+    val repository = new ReferenceVOMongoRepository(client)
+    using(repository.setTransaction()) {session =>
+      session.startTransaction()
+      assert(repository.findByTaskIds(taskIds).size == taskIds.size)
+      session.abortTransaction()
+    }
+  }
+
+  test("taskIdのリストに一致しないtaskIdがあった場合、一致するレコードのみ返却される") {
+    val taskIds = List("b9cbcbd1-f038-4ca9-9df0-ed1c30da4110", // 不一致
+      "287f5873-722e-4bcb-8f34-a13bba9b9abc",
+      "5d435035-a59c-46a6-a4c7-81419a69fcd7",
+    )
+
+    val repository = new ReferenceVOMongoRepository(client)
+    using(repository.setTransaction()) {session =>
+      session.startTransaction()
+      assert(repository.findByTaskIds(taskIds).size == 2)
+      session.abortTransaction()
+    }
+  }
+
+  test("複数のレコードを登録し、存在しないtaskIdのレコードのみ登録されること") {
+    val refVoList = List(
+      // 既に存在するため無視されるであろうレコード
+      ReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
+        PointReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+      )),
+      ReferenceVO("6c198760-bb53-4bee-90e0-b5d38cf86bf2", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
+        PointReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+      )),
+      ReferenceVO("b4d114c1-f2a4-4d01-a59f-35ff148906d5", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
+        PointReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+      )),
+    )
+    val taskIds = refVoList.map(refVo => refVo.taskId)
+    val repository = new ReferenceVOMongoRepository(client)
+    using(repository.setTransaction()) {session =>
+      session.startTransaction()
+      assert(repository.insertMany(taskIds, refVoList) == 2)
+      assert(repository.findByTaskIds(taskIds).size == taskIds.size)
+      session.commitTransaction()
+    }
+  }
+
+  test("複数のレコードを登録し、Rollbackした場合、新規登録のレコードのみRollbackされること") {
+    val refVoList = List(
+      // 既に存在するため無視されるであろうレコード
+      ReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
+        PointReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+      )),
+      // 以下、ROLLBACKされるレコード
+      ReferenceVO("6c198760-bb53-4bee-90e0-b5d38cf86bf2", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
+        PointReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+      )),
+      ReferenceVO("b4d114c1-f2a4-4d01-a59f-35ff148906d5", "SampleApp", "20200820000000000", "20200820235959999", 235959999L, "127.0.0.1", List(
+        PointReferenceVO("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9", "cf9e924d-7a35-4160-9b42-46957f7a68b0", "15dcba89-e160-4fc7-8ce6-bf603231e76d", 0, "20200820000000000", "20200820235959999", 0, "class com.github.fishibashi.nosqlexample.db.reference.ReferenceVOPostgresRepositoryTest", "test", Map("Hello" -> "World"), "1")
+      )),
+    )
+    val taskIds = refVoList.map(refVo => refVo.taskId)
+
+    val repository = new ReferenceVOMongoRepository(client)
+    using(repository.setTransaction()) {session =>
+      session.startTransaction()
+      assert(repository.insertMany(taskIds, refVoList) == 2)
+      // rollback
+      session.abortTransaction()
+    }
+
+    val collection = client.getDatabase("testdb").getCollection("ReferenceVO")
+    val count = (taskId: String) =>
+      collection.countDocuments(Filters.eq("taskId", taskId))
+
+    assert(count("b9cbcbd1-f038-4ca9-9df0-ed1c30da41b9") == 1)
+    assert(count("6c198760-bb53-4bee-90e0-b5d38cf86bf2") == 0)
+    assert(count("b4d114c1-f2a4-4d01-a59f-35ff148906d5") == 0)
+  }}
